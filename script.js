@@ -1,6 +1,19 @@
-const API_URL = 'https://script.google.com/macros/s/AKfycbzm_De4KG7Z4eMphpwX4koXCZaqJI2RCDJCl-Ql5fl8igFTF11igNECt0O61Rl6lkcF/exec';  // Actualizarás esto con la nueva URL
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxGrcvVywOnV9byWKd8_5CiKQa97-nMgZDyF2WDjBiU2q7Cc0cdefbnu_k5I56j-eFRJQ/exec';
+// Usando cors-anywhere como proxy
+const API_URL = `https://cors-anywhere.herokuapp.com/${SCRIPT_URL}`;
 
-document.getElementById('loginForm').addEventListener('submit', function(event) {
+// Log para debugging
+console.log('Configuración inicial:', {
+    scriptUrl: SCRIPT_URL,
+    apiUrl: API_URL,
+    navegador: {
+        userAgent: navigator.userAgent,
+        platform: navigator.platform,
+        vendor: navigator.vendor
+    }
+});
+
+document.getElementById('loginForm').addEventListener('submit', async function(event) {
     event.preventDefault();
     
     const usuario = document.getElementById('usuario').value;
@@ -11,37 +24,40 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     submitButton.disabled = true;
     errorMessage.style.display = 'none';
 
-    // Crear un nombre único para la función callback
-    const callbackName = 'jsonpCallback_' + Date.now();
+    try {
+        console.log('Iniciando solicitud de login...');
 
-    // Crear la función callback temporal
-    window[callbackName] = function(response) {
-        if (response.status === 'success') {
-            sessionStorage.setItem('userData', JSON.stringify(response.data));
+        // Crear un formulario para enviar los datos
+        const formData = new FormData();
+        formData.append('action', 'login');
+        formData.append('usuario', usuario);
+        formData.append('password', password);
+
+        const response = await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', // Importante: esto permite la solicitud cross-origin
+            body: formData
+        });
+
+        // Como estamos usando no-cors, necesitamos hacer una segunda solicitud para obtener los datos
+        const checkUrl = `${SCRIPT_URL}?action=check&usuario=${encodeURIComponent(usuario)}`;
+        const checkResponse = await fetch(checkUrl);
+        const data = await checkResponse.json();
+        
+        console.log('Datos recibidos:', data);
+        
+        if (data.status === 'success') {
+            localStorage.setItem('userData', JSON.stringify(data.data));
             window.location.href = 'dashboard.html';
         } else {
-            errorMessage.textContent = response.message || 'Error al iniciar sesión';
+            errorMessage.textContent = data.message || 'Error al iniciar sesión';
             errorMessage.style.display = 'block';
         }
-        submitButton.disabled = false;
-        
-        // Limpiar: eliminar el script y la función callback
-        delete window[callbackName];
-        document.body.removeChild(script);
-    };
-
-    // Crear y añadir el script
-    const script = document.createElement('script');
-    script.src = `${API_URL}?action=login&usuario=${encodeURIComponent(usuario)}&password=${encodeURIComponent(password)}&callback=${callbackName}`;
-    
-    // Manejar errores
-    script.onerror = function() {
-        errorMessage.textContent = 'Error al procesar la solicitud';
+    } catch (error) {
+        console.error('Error detallado:', error);
+        errorMessage.textContent = 'Error de conexión. Por favor, intente nuevamente.';
         errorMessage.style.display = 'block';
+    } finally {
         submitButton.disabled = false;
-        delete window[callbackName];
-        document.body.removeChild(script);
-    };
-
-    document.body.appendChild(script);
+    }
 }); 
