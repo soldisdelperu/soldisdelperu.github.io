@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <base target="_top">
+    <meta charset="UTF-8">
+    <title>Dashboard - Sistema de Cotizaciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .welcome-message {
+            margin-bottom: 20px;
+        }
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="welcome-message">
+            <h1>Bienvenido al Sistema</h1>
+            <p id="userData">Cargando datos de usuario...</p>
+        </div>
+        <div id="mainContent">
+            <!-- Aquí irá el contenido principal -->
+        </div>
+    </div>
+
+    <script>
+        // Verificar si hay datos de usuario
+        window.onload = function() {
+            const userData = sessionStorage.getItem('userData');
+            if (!userData) {
+                window.location.href = '?page=login';
+                return;
+            }
+            
+            const user = JSON.parse(userData);
+            document.getElementById('userData').textContent = 
+                `Bienvenido, ${user.nombres} (${user.rol})`;
+        }
+    </script>
+</body>
+</html> 
