@@ -31,18 +31,29 @@
     </div>
 
     <script>
-        // Verificar si hay datos de usuario
-        window.onload = function() {
-            const userData = sessionStorage.getItem('userData');
-            if (!userData) {
-                window.location.href = '?page=login';
-                return;
+        // Verificar si hay datos de usuario inmediatamente
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                const userData = localStorage.getItem('userData');
+                console.log('Datos recuperados:', userData); // Para debug
+                
+                if (!userData) {
+                    console.log('No hay datos de usuario');
+                    window.location.href = 'index.html';
+                    return;
+                }
+                
+                const user = JSON.parse(userData);
+                console.log('Datos parseados:', user); // Para debug
+                
+                document.getElementById('userData').textContent = 
+                    `Bienvenido, ${user.nombres} (${user.rol}) - Cliente: ${user.cliente}`;
+            } catch (error) {
+                console.error('Error al cargar datos:', error);
+                document.getElementById('userData').textContent = 
+                    'Error al cargar datos de usuario';
             }
-            
-            const user = JSON.parse(userData);
-            document.getElementById('userData').textContent = 
-                `Bienvenido, ${user.nombres} (${user.rol})`;
-        }
+        });
     </script>
 </body>
 </html> 
