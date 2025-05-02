@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotizaciones Aprobadas - Sistema de Cotizaciones</title>
+    <link rel="stylesheet" href="cotizaciones_aprobadas.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="cotizaciones-container">
+        <h1>Cotizaciones Aprobadas</h1>
+        <main class="cotizaciones-content">
+            <div class="table-container">
+                <table id="cotizacionesTable">
+                    <thead>
+                        <tr>
+                            <th>N° Orden</th>
+                            <th>Fecha</th>
+                            <th>Cliente</th>
+                            <th>Unidad</th>
+                            <th>Departamento</th>
+                            <th>Prioridad</th>
+                            <th>Total</th>
+                            <th>Estado Entrega</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Se llenará dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal para ver detalle -->
+    <div id="detalleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Cotización N° <span id="cotizacionNumero"></span></h2>
+                <p>Fecha: <span id="fechaActual"></span></p>
+            </div>
+            <div class="modal-body">
+                <div class="cotizacion-header">
+                    <div class="empresa-info">
+                        <h2>LP SOLDIS</h2>
+                        <p>RUC: 12345678910</p>
+                        <p>Dirección: Av. Que Tal 111</p>
+                    </div>
+                </div>
+                
+                <div class="cliente-info">
+                    <h3>Datos del Cliente</h3>
+                    <p><strong>Cliente:</strong> <span id="detalleCliente"></span></p>
+                    <p><strong>Unidad:</strong> <span id="detalleUnidad"></span></p>
+                    <p><strong>Departamento:</strong> <span id="detalleDepartamento"></span></p>
+                    <p><strong>Prioridad:</strong> <span id="detallePrioridad"></span></p>
+                </div>
+
+                <div class="items-table">
+                    <table id="detalleTable">
+                        <thead>
+                            <tr>
+                                <th>Categoría</th>
+                                <th>Artículo</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unit.</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="4" class="text-right">Subtotal:</td>
+                                <td id="detalleSubtotal"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-right">IGV (18%):</td>
+                                <td id="detalleIgv"></td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-right">Total:</td>
+                                <td id="detalleTotal"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+
+                <div class="modal-footer">
+                    <button id="descargarPdfBtn" class="btn-primary">Descargar PDF</button>
+                    <button class="btn-secondary close-modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.29/jspdf.plugin.autotable.min.js"></script>
+    <script src="cotizaciones_aprobadas.js"></script>
+</body>
+</html> 

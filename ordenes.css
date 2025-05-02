@@ -1,0 +1,280 @@
+@import 'common.css';
+
+/* Variables globales */
+:root {
+    --primary-color: #4CAF50;
+    --primary-hover: #45a049;
+    --danger-color: #dc3545;
+    --danger-hover: #c82333;
+    --success-color: #28a745;
+    --success-hover: #218838;
+    --gray-light: #f5f5f5;
+    --gray-medium: #ddd;
+    --text-dark: #333;
+    --shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--gray-light);
+    color: var(--text-dark);
+}
+
+.ordenes-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.ordenes-content {
+    background: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 1.5rem;
+}
+
+/* Header */
+.ordenes-header {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+}
+
+/* Tabla principal */
+.table-container {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--gray-medium);
+}
+
+th {
+    background-color: var(--gray-light);
+    font-weight: 600;
+}
+
+/* Estados */
+.estado {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.estado-pendiente {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.estado-aprobado {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.estado-rechazado {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+/* Botones */
+.btn-ver {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btn-ver:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: white;
+    margin: 5% auto;
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 800px;
+    position: relative;
+    box-shadow: var(--shadow);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h2 {
+    color: var(--primary-color);
+    font-weight: normal;
+}
+
+.close {
+    font-size: 24px;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+.close:hover {
+    color: var(--danger-color);
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+/* Información de la orden */
+.orden-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background-color: var(--background-light);
+    border-radius: 4px;
+}
+
+.orden-info p {
+    margin: 0;
+}
+
+.orden-info strong {
+    color: var(--primary-color);
+}
+
+.items-table {
+    margin: 20px 0;
+    overflow-x: auto;
+}
+
+/* Botones en el modal */
+.btn-success {
+    background-color: var(--success-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.btn-success:hover {
+    background-color: var(--success-hover);
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-secondary {
+    background-color: var(--gray-medium);
+    color: var(--text-dark);
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-secondary:hover {
+    background-color: #bbb;
+}
+
+/* Ajustes para la tabla dentro del modal */
+#detalleTable {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+#detalleTable th,
+#detalleTable td {
+    padding: 10px;
+    text-align: left;
+}
+
+#detalleTable tfoot td {
+    font-weight: bold;
+    border-top: 2px solid var(--gray-medium);
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* Modal y demás estilos del dashboard.css */
+/* ... (copiar los estilos del modal del dashboard.css) ... */
+
+.error-message {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ef9a9a;
+}
+
+.estado-aprobada {
+    background-color: #d4edda;
+    color: #155724;
+    padding: 4px 8px;
+    border-radius: 4px;
+}
+
+.estado-rechazada {
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 4px 8px;
+    border-radius: 4px;
+} 

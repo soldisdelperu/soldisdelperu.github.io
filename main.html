@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Cotizaciones - LP SOLDIS</title>
+    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="logo">
+                <h2>LP SOLDIS</h2>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-item active" data-page="dashboard.html">
+                    <i class="fas fa-file-invoice"></i>
+                    Nueva Cotización
+                </button>
+                <button class="nav-item" data-page="ordenes.html">
+                    <i class="fas fa-list-alt"></i>
+                    Órdenes Pendientes
+                </button>
+                <button class="nav-item" data-page="cotizaciones_aprobadas.html">
+                    <i class="fas fa-check-circle"></i>
+                    Cotizaciones Aprobadas
+                </button>
+                <!-- El botón de usuarios solo se mostrará para administradores -->
+                <button class="nav-item" data-page="usuarios.html" id="usuariosBtn" style="display: none;">
+                    <i class="fas fa-users"></i>
+                    Gestión de Usuarios
+                </button>
+                <button id="logoutBtn" class="nav-item logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Cerrar Sesión
+                </button>
+            </nav>
+            <div class="user-info">
+                <p id="userData">Cargando...</p>
+            </div>
+        </div>
+        <div class="content">
+            <iframe id="contentFrame" src="dashboard.html"></iframe>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+</html> 
