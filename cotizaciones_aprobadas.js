@@ -250,8 +250,8 @@ function generarPDF() {
     // Encabezado
     doc.text('LP SOLDIS', 20, 20);
     doc.setFontSize(12);
-    doc.text('RUC: 12345678910', 20, 30);
-    doc.text('Dirección: Av. Que Tal 111', 20, 35);
+    doc.text('RUC: 20609075954', 20, 30);
+    doc.text('Dirección: Av. Separadora Industrial 751', 20, 35);
     
     // Información de la cotización
     doc.text(`Cotización N°: ${ordenActual.orden.numero}`, 140, 20);
