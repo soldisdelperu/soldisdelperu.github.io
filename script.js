@@ -1,4 +1,4 @@
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxGrcvVywOnV9byWKd8_5CiKQa97-nMgZDyF2WDjBiU2q7Cc0cdefbnu_k5I56j-eFRJQ/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwcPl6mNqcFIGc2iBPCBG21-Fan-xgUghNxMroMxhN5C5A-9nGDKoFe_WmCMO_Rlp-kgw/exec';
 // Usando cors-anywhere como proxy
 const API_URL = `https://cors-anywhere.herokuapp.com/${SCRIPT_URL}`;
 
@@ -48,7 +48,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         
         if (data.status === 'success') {
             localStorage.setItem('userData', JSON.stringify(data.data));
-            window.location.href = 'dashboard.html';
+            window.location.href = 'main.html';
         } else {
             errorMessage.textContent = data.message || 'Error al iniciar sesión';
             errorMessage.style.display = 'block';
