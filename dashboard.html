@@ -1,59 +1,153 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <base target="_top">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Sistema de Cotizaciones</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-        }
-        .welcome-message {
-            margin-bottom: 20px;
-        }
-        .dashboard-container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-    </style>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <div class="dashboard-container">
-        <div class="welcome-message">
-            <h1>Bienvenido al Sistema</h1>
+    <div class="container">
+        <h1>Nueva Cotización</h1>
+        <div class="user-info">
             <p id="userData">Cargando datos de usuario...</p>
         </div>
-        <div id="mainContent">
-            <!-- Aquí irá el contenido principal -->
+        <div class="dashboard-container">
+            <header class="dashboard-header">
+                <div class="user-info">
+                    <h1>Sistema de Cotizaciones</h1>
+                </div>
+            </header>
+
+            <main class="cotizacion-container">
+                <div class="form-section">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="unidad">Unidad:</label>
+                            <select id="unidad" required>
+                                <option value="">Seleccione...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="departamento">Departamento:</label>
+                            <input type="text" id="departamento" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="prioridad">Prioridad:</label>
+                            <select id="prioridad" required>
+                                <option value="">Seleccione...</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="categoria">Categoría:</label>
+                            <select id="categoria" required>
+                                <option value="">Seleccione...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="articulo">Artículo:</label>
+                            <select id="articulo" required>
+                                <option value="">Seleccione categoría...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Precio Unitario:</label>
+                            <input type="text" id="precioUnitario" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="cantidad">Cantidad:</label>
+                            <input type="number" id="cantidad" min="1" value="1" required>
+                        </div>
+                        <button id="agregarBtn" class="btn-primary">
+                            <i class="fas fa-plus"></i> Agregar
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="cotizacionTable">
+                        <thead>
+                            <tr>
+                                <th>Categoría</th>
+                                <th>Artículo</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unitario</th>
+                                <th>Precio Total</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Los items se agregarán dinámicamente -->
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="2" class="text-right">Subtotal:</td>
+                                <td id="subtotalCotizacion">S/. 0.00</td>
+                                <td class="text-right">I.G.V. (18%):</td>
+                                <td id="igvCotizacion">S/. 0.00</td>
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-right">Total:</td>
+                                <td id="totalCotizacion">S/. 0.00</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                    <div class="actions-container">
+                        <button id="generarOrdenBtn" class="btn-success">
+                            <i class="fas fa-file-invoice"></i> Generar Orden
+                        </button>
+                    </div>
+                </div>
+            </main>
         </div>
     </div>
 
-    <script>
-        // Verificar si hay datos de usuario inmediatamente
-        document.addEventListener('DOMContentLoaded', function() {
-            try {
-                const userData = localStorage.getItem('userData');
-                console.log('Datos recuperados:', userData); // Para debug
-                
-                if (!userData) {
-                    console.log('No hay datos de usuario');
-                    window.location.href = 'index.html';
-                    return;
-                }
-                
-                const user = JSON.parse(userData);
-                console.log('Datos parseados:', user); // Para debug
-                
-                document.getElementById('userData').textContent = 
-                    `Bienvenido, ${user.nombres} (${user.rol}) - Cliente: ${user.cliente}`;
-            } catch (error) {
-                console.error('Error al cargar datos:', error);
-                document.getElementById('userData').textContent = 
-                    'Error al cargar datos de usuario';
-            }
-        });
-    </script>
+    <!-- Modal de vista previa -->
+    <div id="previewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Vista Previa de Orden</h2>
+                <span class="close">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="preview-section">
+                    <h3>Datos del Cliente</h3>
+                    <p><strong>Cliente:</strong> <span id="previewCliente"></span></p>
+                    <p><strong>Unidad:</strong> <span id="previewUnidad"></span></p>
+                    <p><strong>Departamento:</strong> <span id="previewDepartamento"></span></p>
+                    <p><strong>Prioridad:</strong> <span id="previewPrioridad"></span></p>
+                </div>
+                <div class="preview-section">
+                    <h3>Artículos</h3>
+                    <table id="previewTable">
+                        <thead>
+                            <tr>
+                                <th>Categoría</th>
+                                <th>Artículo</th>
+                                <th>Cantidad</th>
+                                <th>Precio Unit.</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                <div class="preview-section totales">
+                    <p><strong>Subtotal:</strong> <span id="previewSubtotal"></span></p>
+                    <p><strong>IGV (18%):</strong> <span id="previewIgv"></span></p>
+                    <p class="total"><strong>Total:</strong> <span id="previewTotal"></span></p>
+                </div>
+                <div class="modal-footer">
+                    <button id="guardarOrdenBtn" class="btn-success">Guardar Orden</button>
+                    <button class="btn-secondary close-modal">Cancelar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="dashboard.js"></script>
 </body>
 </html> 
