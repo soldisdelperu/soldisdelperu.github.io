@@ -120,11 +120,13 @@ th {
     height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 1000;
+    overflow-y: auto;
+    padding: 20px 0;
 }
 
 .modal-content {
     background-color: white;
-    margin: 5% auto;
+    margin: 20px auto;
     padding: 20px;
     border-radius: 8px;
     width: 80%;
@@ -277,4 +279,11 @@ th {
     color: #721c24;
     padding: 4px 8px;
     border-radius: 4px;
+}
+
+/* Asegurar que el contenido del modal sea scrolleable */
+.modal-body {
+    max-height: calc(100vh - 200px);
+    overflow-y: auto;
+    padding-right: 10px;
 } 
