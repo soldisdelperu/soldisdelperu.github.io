@@ -126,7 +126,9 @@ async function verDetalle(numeroOrden) {
 
 // Función para mostrar el modal de detalle
 function mostrarModalDetalle(data) {
-    document.getElementById('ordenNumero').textContent = data.orden.numero;
+    // Actualizamos el título del modal para incluir el número
+    document.querySelector('.modal-header h2').textContent = `Detalle de Orden #${data.orden.numero}`;
+    
     document.getElementById('detalleCliente').textContent = data.orden.cliente;
     document.getElementById('detalleUnidad').textContent = data.orden.unidad;
     document.getElementById('detalleDepartamento').textContent = data.orden.departamento;
@@ -153,16 +155,18 @@ function mostrarModalDetalle(data) {
     
     document.getElementById('detalleModal').style.display = 'block';
 
-    // Agregar botones de aprobar/rechazar solo si:
-    // 1. El usuario es Aprobador
-    // 2. La orden está pendiente o rechazada (no si está aprobada)
+    // Agregar botones de aprobar/rechazar
     const botonesAprobacion = document.getElementById('botonesAprobacion');
     if (botonesAprobacion) {
         if (datosUsuario.rol === 'Aprobador' && 
             (data.orden.estado === 'Pendiente' || data.orden.estado === 'Rechazada')) {
             botonesAprobacion.innerHTML = `
-                <button onclick="aprobarOrden()" class="btn-success">Aprobar Orden</button>
-                <button onclick="rechazarOrden()" class="btn-danger">Rechazar Orden</button>
+                <button onclick="aprobarOrden()" class="btn-success">
+                    <i class="fas fa-check"></i> Aprobar Orden
+                </button>
+                <button onclick="rechazarOrden()" class="btn-danger">
+                    <i class="fas fa-times"></i> Rechazar Orden
+                </button>
             `;
         } else {
             botonesAprobacion.innerHTML = '';
@@ -228,13 +232,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     await cargarOrdenes();
     
     // Botones de aprobar y rechazar
-    document.getElementById('aprobarBtn').addEventListener('click', aprobarOrden);
-    document.getElementById('rechazarBtn').addEventListener('click', rechazarOrden);
+    document.getElementById('aprobarBtn')?.addEventListener('click', aprobarOrden);
+    document.getElementById('rechazarBtn')?.addEventListener('click', rechazarOrden);
     
-    // Cerrar modal
-    document.querySelectorAll('.close, .close-modal').forEach(element => {
-        element.addEventListener('click', () => {
-            document.getElementById('detalleModal').style.display = 'none';
-        });
+    // Cerrar modal - removemos los event listeners duplicados y usamos solo el onclick del HTML
+    const modal = document.getElementById('detalleModal');
+    
+    // Cerrar al hacer clic fuera del modal
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            cerrarModal();
+        }
     });
-}); 
+
+    // Cerrar con el botón X en la esquina
+    document.querySelector('.close')?.addEventListener('click', cerrarModal);
+});
+
+// Función para cerrar el modal
+function cerrarModal() {
+    const modal = document.getElementById('detalleModal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+} 
