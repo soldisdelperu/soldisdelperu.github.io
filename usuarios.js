@@ -1,5 +1,5 @@
 // URL del script de Google
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwGIbNDO1ehar5clCUzg3VcirzMkvH7fn24AK3VGjQFu18f7owbt-8BD7pWkZWyiaUwcQ/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxoMKGrC42NJOXa009iXZm-NdtLknBfOOF9ZAVf6A_VwMeLva1mScMNl-liZH7YnWuS5w/exec';
 
 // Variables globales
 let datosUsuario = null;
@@ -40,15 +40,17 @@ function mostrarUsuarios(usuarios) {
     usuarios.forEach(usuario => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-            <td>${usuario.email}</td>
+            <td>${usuario.usuario}</td>
+            <td>${usuario.password}</td>
             <td>${usuario.nombres}</td>
             <td>${usuario.rol}</td>
             <td>${usuario.cliente}</td>
+            <td>${usuario.dependencia || ''}</td>
             <td>
-                <button onclick="editarUsuario('${usuario.email}')" class="btn-primary">
+                <button onclick="editarUsuario('${usuario.usuario}')" class="btn-primary">
                     <i class="fas fa-edit"></i> Editar
                 </button>
-                <button onclick="eliminarUsuario('${usuario.email}')" class="btn-danger">
+                <button onclick="eliminarUsuario('${usuario.usuario}')" class="btn-danger">
                     <i class="fas fa-trash"></i> Eliminar
                 </button>
             </td>
@@ -75,78 +77,78 @@ async function guardarUsuario(event) {
     
     const formData = new FormData();
     formData.append('action', usuarioActual ? 'editarUsuario' : 'crearUsuario');
-    formData.append('email', document.getElementById('email').value);
+    formData.append('usuario', document.getElementById('usuario').value);
+    formData.append('password', document.getElementById('password').value);
     formData.append('nombres', document.getElementById('nombres').value);
     formData.append('rol', document.getElementById('rol').value);
     formData.append('cliente', document.getElementById('cliente').value);
+    formData.append('dependencia', document.getElementById('dependencia').value);
     
     try {
-        const response = await fetch(SCRIPT_URL, {
+        await fetch(SCRIPT_URL, {
             method: 'POST',
+            mode: 'no-cors',
             body: formData
         });
+
+        // Esperar un momento y verificar
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await cargarUsuarios();
         
-        const result = await response.json();
-        
-        if (result.status === 'success') {
-            cerrarModal();
-            cargarUsuarios();
-            mostrarError(result.message, 'success');
-        } else {
-            throw new Error(result.message);
-        }
+        cerrarModal();
+        mostrarNotificacion('Usuario guardado correctamente');
     } catch (error) {
         console.error('Error:', error);
-        mostrarError('Error al guardar usuario: ' + error.message);
+        mostrarNotificacion(error.message, 'error');
     }
 }
 
-async function editarUsuario(email) {
+async function editarUsuario(usuario) {
     try {
-        const response = await fetch(`${SCRIPT_URL}?action=getUsuario&email=${email}`);
+        const response = await fetch(`${SCRIPT_URL}?action=getUsuario&usuario=${encodeURIComponent(usuario)}`);
         const result = await response.json();
         
         if (result.status === 'success') {
             usuarioActual = result.data;
-            document.getElementById('email').value = usuarioActual.email;
+            document.getElementById('usuario').value = usuarioActual.usuario;
+            document.getElementById('password').value = usuarioActual.password;
             document.getElementById('nombres').value = usuarioActual.nombres;
             document.getElementById('rol').value = usuarioActual.rol;
             document.getElementById('cliente').value = usuarioActual.cliente;
+            document.getElementById('dependencia').value = usuarioActual.dependencia || '';
             
             mostrarModal('Editar Usuario');
         } else {
-            throw new Error(result.message);
+            throw new Error(result.message || 'Error al cargar usuario');
         }
     } catch (error) {
         console.error('Error:', error);
-        mostrarError('Error al cargar usuario: ' + error.message);
+        mostrarNotificacion(error.message, 'error');
     }
 }
 
-async function eliminarUsuario(email) {
+async function eliminarUsuario(usuario) {
     if (!confirm('¿Está seguro de eliminar este usuario?')) return;
     
     try {
         const formData = new FormData();
         formData.append('action', 'eliminarUsuario');
-        formData.append('email', email);
+        formData.append('usuario', usuario);
         
-        const response = await fetch(SCRIPT_URL, {
+        await fetch(SCRIPT_URL, {
             method: 'POST',
+            mode: 'no-cors',
             body: formData
         });
+
+        // Esperar un momento y verificar
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        await cargarUsuarios();
         
-        const result = await response.json();
-        
-        if (result.status === 'success') {
-            cargarUsuarios();
-            mostrarError('Usuario eliminado correctamente', 'success');
-        } else {
-            throw new Error(result.message);
-        }
+        mostrarNotificacion('Usuario eliminado correctamente');
     } catch (error) {
         console.error('Error:', error);
-        mostrarError('Error al eliminar usuario: ' + error.message);
+        mostrarNotificacion(error.message, 'error');
     }
 }
 
