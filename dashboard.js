@@ -1,5 +1,5 @@
 // URL del script de Google
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwGIbNDO1ehar5clCUzg3VcirzMkvH7fn24AK3VGjQFu18f7owbt-8BD7pWkZWyiaUwcQ/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxoMKGrC42NJOXa009iXZm-NdtLknBfOOF9ZAVf6A_VwMeLva1mScMNl-liZH7YnWuS5w/exec';
 
 // Variables globales para almacenar datos
 let datosUsuario = null;
@@ -39,17 +39,8 @@ function cargarDatosUsuario() {
 // Función para cargar datos iniciales
 async function cargarDatosCotizacion() {
     try {
-        console.log('Cargando datos de cotización...');
-        const response = await fetch(`${SCRIPT_URL}?action=getDatos`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            }
-        });
-
-        console.log('Respuesta recibida:', response);
+        const response = await fetch(`${SCRIPT_URL}?action=getDatos`);
         const result = await response.json();
-        console.log('Datos recibidos:', result);
         
         if (result.status === 'success') {
             datosCotizacion = result.data;
@@ -63,7 +54,7 @@ async function cargarDatosCotizacion() {
     }
 }
 
-// Función para llenar los selectores
+// Función para llenar selectores
 function llenarSelectores() {
     const selectUnidad = document.getElementById('unidad');
     const selectPrioridad = document.getElementById('prioridad');
@@ -74,7 +65,7 @@ function llenarSelectores() {
     const unidadesCliente = datosCotizacion.unidades.filter(
         u => u.cliente === datosUsuario.cliente
     );
-
+    
     // Llenar unidades
     selectUnidad.innerHTML = '<option value="">Seleccione...</option>';
     unidadesCliente.forEach(unidad => {
@@ -84,7 +75,7 @@ function llenarSelectores() {
         option.dataset.departamento = unidad.departamento;
         selectUnidad.appendChild(option);
     });
-
+    
     // Llenar prioridades
     selectPrioridad.innerHTML = '<option value="">Seleccione...</option>';
     datosCotizacion.prioridades.forEach(pri => {
@@ -93,7 +84,7 @@ function llenarSelectores() {
         option.textContent = pri;
         selectPrioridad.appendChild(option);
     });
-
+    
     // Obtener categorías únicas
     const categorias = [...new Set(datosCotizacion.articulos.map(art => art.categoria))];
     
