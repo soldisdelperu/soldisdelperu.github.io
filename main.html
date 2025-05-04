@@ -12,28 +12,31 @@
         <div class="sidebar">
             <div class="logo">
                 <h2>LP SOLDIS</h2>
+                <button class="sidebar-toggle">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
             <nav class="nav-menu">
-                <button class="nav-item active" data-page="dashboard.html">
+                <button class="nav-item active" data-page="dashboard.html" data-title="Nueva Cotización">
                     <i class="fas fa-file-invoice"></i>
-                    Nueva Cotización
+                    <span>Nueva Cotización</span>
                 </button>
-                <button class="nav-item" data-page="ordenes.html">
+                <button class="nav-item" data-page="ordenes.html" data-title="Órdenes Pendientes">
                     <i class="fas fa-list-alt"></i>
-                    Órdenes Pendientes
+                    <span>Órdenes Pendientes</span>
                 </button>
-                <button class="nav-item" data-page="cotizaciones_aprobadas.html">
+                <button class="nav-item" data-page="cotizaciones_aprobadas.html" data-title="Cotizaciones Aprobadas">
                     <i class="fas fa-check-circle"></i>
-                    Cotizaciones Aprobadas
+                    <span>Cotizaciones Aprobadas</span>
                 </button>
                 <!-- El botón de usuarios solo se mostrará para administradores -->
-                <button class="nav-item" data-page="usuarios.html" id="usuariosBtn" style="display: none;">
+                <button class="nav-item" data-page="usuarios.html" id="usuariosBtn" style="display: none;" data-title="Gestión de Usuarios">
                     <i class="fas fa-users"></i>
-                    Gestión de Usuarios
+                    <span>Gestión de Usuarios</span>
                 </button>
-                <button id="logoutBtn" class="nav-item logout">
+                <button id="logoutBtn" class="nav-item logout" data-title="Cerrar Sesión">
                     <i class="fas fa-sign-out-alt"></i>
-                    Cerrar Sesión
+                    <span>Cerrar Sesión</span>
                 </button>
             </nav>
             <div class="user-info">
@@ -44,6 +47,23 @@
             <iframe id="contentFrame" src="dashboard.html"></iframe>
         </div>
     </div>
+    <nav class="mobile-nav">
+        <button class="nav-item active" data-page="dashboard.html">
+            <i class="fas fa-file-invoice"></i>
+        </button>
+        <button class="nav-item" data-page="ordenes.html">
+            <i class="fas fa-list-alt"></i>
+        </button>
+        <button class="nav-item" data-page="cotizaciones_aprobadas.html">
+            <i class="fas fa-check-circle"></i>
+        </button>
+        <button class="nav-item" data-page="usuarios.html" id="usuariosBtnMobile" style="display: none;">
+            <i class="fas fa-users"></i>
+        </button>
+        <button id="logoutBtnMobile" class="nav-item">
+            <i class="fas fa-sign-out-alt"></i>
+        </button>
+    </nav>
     <script src="main.js"></script>
 </body>
 </html> 
