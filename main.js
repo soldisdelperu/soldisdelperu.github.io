@@ -75,65 +75,51 @@ document.addEventListener('DOMContentLoaded', () => {
     if (userData && userData.rol === 'Administrador') {
         usuariosBtn.style.display = 'flex';
     }
+
+    // Al final del DOMContentLoaded existente
+    document.querySelector('.sidebar-toggle').addEventListener('click', () => {
+        document.querySelector('.sidebar').classList.toggle('collapsed');
+        document.querySelector('.content').classList.toggle('expanded');
+    });
+
+    // Al final del DOMContentLoaded existente
+    const mobileNavItems = document.querySelectorAll('.mobile-nav .nav-item');
+    mobileNavItems.forEach(item => {
+        if (!item.id.includes('logout')) {
+            item.addEventListener('click', () => {
+                mobileNavItems.forEach(nav => nav.classList.remove('active'));
+                item.classList.add('active');
+                
+                const page = item.dataset.page;
+                document.getElementById('contentFrame').src = page;
+            });
+        }
+    });
+
+    // Manejar logout en móvil
+    document.getElementById('logoutBtnMobile')?.addEventListener('click', () => {
+        localStorage.removeItem('userData');
+        window.location.href = 'index.html';
+    });
 });
 
-function cargarMenu() {
-    const menuContainer = document.getElementById('menu');
-    if (!menuContainer) return;
+// Función para mostrar notificación tipo toast
+function mostrarNotificacion(mensaje, tipo = 'success') {
+    // Remover notificaciones existentes
+    const notificacionesExistentes = document.querySelectorAll('.toast-notification');
+    notificacionesExistentes.forEach(notif => notif.remove());
 
-    const userData = JSON.parse(localStorage.getItem('userData'));
-    if (!userData) {
-        window.location.href = 'index.html';
-        return;
-    }
-
-    let menuHTML = '';
-
-    // El administrador tiene acceso a todo
-    if (userData.rol === 'Administrador') {
-        menuHTML = `
-            <a href="dashboard.html" target="contentFrame" class="menu-item">
-                <i class="fas fa-file-invoice"></i> Nueva Cotización
-            </a>
-            <a href="ordenes.html" target="contentFrame" class="menu-item">
-                <i class="fas fa-clipboard-list"></i> Órdenes Pendientes
-            </a>
-            <a href="cotizaciones_aprobadas.html" target="contentFrame" class="menu-item">
-                <i class="fas fa-check-circle"></i> Cotizaciones Aprobadas
-            </a>
-            <a href="usuarios.html" target="contentFrame" class="menu-item">
-                <i class="fas fa-users"></i> Gestión de Usuarios
-            </a>
-        `;
-    } else {
-        // Menú existente según el rol
-        switch (userData.rol) {
-            case 'Comprador':
-                menuHTML = `
-                    <a href="dashboard.html" target="contentFrame" class="menu-item">
-                        <i class="fas fa-file-invoice"></i> Nueva Cotización
-                    </a>
-                    <a href="ordenes.html" target="contentFrame" class="menu-item">
-                        <i class="fas fa-clipboard-list"></i> Órdenes Pendientes
-                    </a>
-                `;
-                break;
-            case 'Aprobador':
-                menuHTML = `
-                    <a href="ordenes.html" target="contentFrame" class="menu-item">
-                        <i class="fas fa-clipboard-list"></i> Órdenes Pendientes
-                    </a>
-                `;
-                break;
-            case 'Logistico':
-                menuHTML = `
-                    <a href="cotizaciones_aprobadas.html" target="contentFrame" class="menu-item">
-                        <i class="fas fa-check-circle"></i> Cotizaciones Aprobadas
-                    </a>
-                `;
-                break;
-        }
-    }
-
-    menuContainer.innerHTML = menuHTML;
+    const toast = document.createElement('div');
+    toast.className = `toast-notification ${tipo}`;
+    toast.innerHTML = `
+        <i class="fas fa-${tipo === 'success' ? 'check-circle' : tipo === 'warning' ? 'exclamation-triangle' : 'exclamation-circle'}"></i>
+        <span>${mensaje}</span>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // Remover después de 5 segundos
+    setTimeout(() => {
+        toast.remove();
+    }, 5000);
 } 
