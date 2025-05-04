@@ -327,4 +327,61 @@ input[readonly] {
     font-family: 'Font Awesome 5 Free';
     content: '\f15c';
     margin-right: 5px;
+}
+
+/* Media queries para responsividad */
+@media screen and (max-width: 768px) {
+    .dashboard-container {
+        padding: 10px;
+    }
+
+    .form-container {
+        width: 100%;
+        margin: 0;
+        padding: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-group select,
+    .form-group input,
+    .form-group textarea {
+        width: 100%;
+        padding: 8px;
+        font-size: 16px; /* Evita zoom en iOS */
+    }
+
+    /* Asegurar que los selectores sean visibles y usables */
+    select {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23333' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E") no-repeat right .75rem center;
+        background-size: 8px 10px;
+        padding-right: 25px !important;
+    }
+
+    /* Ajustar tabla de artículos */
+    .articulos-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    /* Ajustar botones */
+    .btn-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-container button {
+        width: 100%;
+    }
 } 
