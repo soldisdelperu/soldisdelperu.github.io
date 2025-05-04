@@ -1,4 +1,4 @@
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwGIbNDO1ehar5clCUzg3VcirzMkvH7fn24AK3VGjQFu18f7owbt-8BD7pWkZWyiaUwcQ/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxoMKGrC42NJOXa009iXZm-NdtLknBfOOF9ZAVf6A_VwMeLva1mScMNl-liZH7YnWuS5w/exec';
 // Usando cors-anywhere como proxy
 const API_URL = `https://cors-anywhere.herokuapp.com/${SCRIPT_URL}`;
 
