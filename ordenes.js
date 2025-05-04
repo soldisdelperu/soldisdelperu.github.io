@@ -1,5 +1,5 @@
 // URL del script de Google
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwGIbNDO1ehar5clCUzg3VcirzMkvH7fn24AK3VGjQFu18f7owbt-8BD7pWkZWyiaUwcQ/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxoMKGrC42NJOXa009iXZm-NdtLknBfOOF9ZAVf6A_VwMeLva1mScMNl-liZH7YnWuS5w/exec';
 
 // Variables globales
 let datosUsuario = null;
@@ -38,35 +38,28 @@ function mostrarError(mensaje) {
 // Función para cargar órdenes
 async function cargarOrdenes() {
     try {
-        const formData = new FormData();
-        formData.append('action', 'getOrdenes');
-        
-        // Primera solicitud
-        await fetch(SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            body: formData
-        });
-
-        // Esperar un momento
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
-        // Segunda solicitud para obtener datos
         const response = await fetch(`${SCRIPT_URL}?action=getOrdenes`);
         const result = await response.json();
         
         if (result.status === 'success') {
+            const userData = JSON.parse(localStorage.getItem('userData'));
             let ordenes = result.data;
-            if (datosUsuario.rol === 'Comprador') {
-                ordenes = ordenes.filter(orden => orden.usuario === datosUsuario.usuario);
+            
+            // Si es Aprobador, mostrar:
+            // 1. Órdenes donde el usuario creador tiene como dependencia al aprobador actual
+            // 2. Órdenes creadas por el mismo aprobador
+            if (userData.rol === 'Aprobador') {
+                ordenes = ordenes.filter(orden => 
+                    (orden.dependenciaCreador === userData.usuario) || // El creador depende del aprobador actual
+                    (orden.usuarioCreador === userData.usuario) // El aprobador creó la orden
+                );
             }
+            
             mostrarOrdenes(ordenes);
-        } else {
-            throw new Error(result.message || 'Error al cargar órdenes');
         }
     } catch (error) {
-        console.error('Error al cargar órdenes:', error);
-        mostrarError('Error al cargar órdenes: ' + error.message);
+        console.error('Error:', error);
+        mostrarError('Error al cargar órdenes');
     }
 }
 
@@ -84,6 +77,8 @@ function mostrarOrdenes(ordenes) {
             <td>${orden.unidad}</td>
             <td>${orden.departamento}</td>
             <td>${orden.prioridad}</td>
+            <td>S/. ${orden.subtotal.toFixed(2)}</td>
+            <td>S/. ${orden.igv.toFixed(2)}</td>
             <td>S/. ${orden.total.toFixed(2)}</td>
             <td><span class="estado-${orden.estado.toLowerCase()}">${orden.estado}</span></td>
             <td>
@@ -182,6 +177,7 @@ async function aprobarOrden() {
         const formData = new FormData();
         formData.append('action', 'aprobarOrden');
         formData.append('numero', ordenActual.orden.numero);
+        formData.append('aprobador', datosUsuario.usuario);
         
         await fetch(SCRIPT_URL, {
             method: 'POST',
@@ -193,10 +189,10 @@ async function aprobarOrden() {
         await cargarOrdenes();
         
         document.getElementById('detalleModal').style.display = 'none';
-        mostrarError('Orden aprobada exitosamente');
+        mostrarNotificacion('Orden aprobada correctamente');
     } catch (error) {
         console.error('Error al aprobar orden:', error);
-        mostrarError('Error al aprobar orden: ' + error.message);
+        mostrarNotificacion(error.message, 'error');
     }
 }
 
@@ -219,10 +215,10 @@ async function rechazarOrden() {
         await cargarOrdenes();
         
         document.getElementById('detalleModal').style.display = 'none';
-        mostrarError('Orden rechazada');
+        mostrarNotificacion('Orden rechazada', 'warning');
     } catch (error) {
         console.error('Error al rechazar orden:', error);
-        mostrarError('Error al rechazar orden: ' + error.message);
+        mostrarNotificacion(error.message, 'error');
     }
 }
 
@@ -255,4 +251,25 @@ function cerrarModal() {
     if (modal) {
         modal.style.display = 'none';
     }
+}
+
+// Función para mostrar notificación tipo toast
+function mostrarNotificacion(mensaje, tipo = 'success') {
+    // Remover notificaciones existentes
+    const notificacionesExistentes = document.querySelectorAll('.toast-notification');
+    notificacionesExistentes.forEach(notif => notif.remove());
+
+    const toast = document.createElement('div');
+    toast.className = `toast-notification ${tipo}`;
+    toast.innerHTML = `
+        <i class="fas fa-${tipo === 'success' ? 'check-circle' : tipo === 'warning' ? 'exclamation-triangle' : 'exclamation-circle'}"></i>
+        <span>${mensaje}</span>
+    `;
+    
+    document.body.appendChild(toast);
+    
+    // Remover después de 5 segundos
+    setTimeout(() => {
+        toast.remove();
+    }, 5000);
 } 
