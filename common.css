@@ -190,11 +190,10 @@ input:focus, select:focus {
 
 /* Mejoras en las tablas */
 .table-container {
-    background: white;
-    padding: 1.5rem;
-    border-radius: 8px;
-    box-shadow: var(--shadow);
-    margin: 1rem 0;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 15px 0;
 }
 
 /* Animaciones */
@@ -246,4 +245,132 @@ input:focus, select:focus {
 [data-tooltip]:hover:before {
     visibility: visible;
     opacity: 1;
+}
+
+/* Toast Notifications */
+.toast-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 9999;
+    animation: slideIn 0.5s ease-out, fadeOut 0.5s ease-out 4.5s;
+    max-width: 300px;
+}
+
+.toast-notification.error {
+    background-color: #f44336;
+}
+
+.toast-notification.warning {
+    background-color: #ff9800;
+}
+
+.toast-notification i {
+    font-size: 20px;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Media queries para tablas en móviles */
+@media screen and (max-width: 768px) {
+    .table-container {
+        margin: 10px -15px;
+        padding: 0 15px;
+        box-shadow: inset -5px 0 10px -5px rgba(0,0,0,0.1);
+    }
+
+    table {
+        min-width: 600px; /* Asegura que la tabla mantenga un mínimo de ancho */
+    }
+
+    /* Ajustes para el contenedor principal */
+    .container {
+        padding: 10px;
+    }
+
+    /* Ajustes para el sidebar */
+    .sidebar {
+        width: 60px;
+    }
+
+    .sidebar:not(.collapsed) {
+        position: absolute;
+        z-index: 1000;
+        box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    }
+
+    .content {
+        margin-left: 60px;
+    }
+
+    /* Ajustes para botones y controles */
+    .btn-primary, .btn-secondary {
+        padding: 8px 15px;
+    }
+
+    /* Ajustes para modales */
+    .modal-content {
+        width: 95%;
+        margin: 20px auto;
+    }
+}
+
+/* Media queries para formularios en modales */
+@media screen and (max-width: 768px) {
+    .modal-content {
+        padding: 15px;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+        padding: 8px;
+    }
+
+    .modal-footer {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .modal-footer button {
+        width: 100%;
+    }
 } 
