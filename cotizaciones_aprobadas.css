@@ -84,8 +84,11 @@ th {
 }
 
 .estado-pendiente {
-    background-color: #fff3e0;
-    color: #ef6c00;
+    background-color: #ffc107;
+    color: #000;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: 500;
 }
 
 .estado-pendiente::before {
@@ -101,13 +104,44 @@ th {
     content: '\f110';
 }
 
-.estado-entregado {
-    background-color: #e8f5e9;
-    color: #2e7d32;
+.estado-procesada {
+    background-color: #17a2b8;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: 500;
 }
 
-.estado-entregado::before {
-    content: '\f058';
+.estado-despachada {
+    background-color: #6f42c1;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.estado-en-ruta {
+    background-color: #fd7e14;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.estado-en-punto-de-destino {
+    background-color: #0d6efd;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.estado-entregada {
+    background-color: #198754;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-weight: 500;
 }
 
 /* Modal */
@@ -125,20 +159,121 @@ th {
 }
 
 .modal-content {
-    background-color: white;
-    margin: 20px auto;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #fff;
     padding: 20px;
     border-radius: 8px;
-    width: 80%;
-    max-width: 800px;
-    position: relative;
-    box-shadow: var(--shadow);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.modal-body {
-    max-height: calc(100vh - 200px);
-    overflow-y: auto;
-    padding-right: 10px;
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 30px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #eee;
+}
+
+.empresa-info {
+    text-align: left;
+}
+
+.empresa-info .logo {
+    max-width: 150px;
+    margin-bottom: 10px;
+}
+
+.documento-info {
+    text-align: right;
+}
+
+.info-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}
+
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.info-table td {
+    padding: 8px 0;
+}
+
+.info-table td:first-child {
+    width: 120px;
+    color: #666;
+}
+
+.items-section {
+    margin-bottom: 30px;
+}
+
+.items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.items-table th,
+.items-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.items-table th {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+
+.items-table tfoot tr td {
+    font-weight: bold;
+}
+
+.modal-footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #eee;
+    text-align: right;
+}
+
+.btn-primary,
+.btn-secondary {
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-primary i,
+.btn-secondary i {
+    margin-right: 8px;
+}
+
+h3 {
+    color: #333;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
 }
 
 /* Mantener el header del modal fijo */
@@ -204,11 +339,6 @@ th {
     margin-left: 10px;
 }
 
-.btn-primary {
-    background-color: var(--primary-color);
-    color: white;
-}
-
 .btn-primary:hover {
     background-color: var(--primary-hover);
 }
@@ -220,11 +350,6 @@ th {
 
 .btn-success:hover {
     background-color: var(--success-hover);
-}
-
-.btn-secondary {
-    background-color: var(--gray-medium);
-    color: var(--text-dark);
 }
 
 .btn-secondary:hover {
@@ -327,4 +452,233 @@ td .btn-success {
 
 .modal-content-notificacion button {
     margin-top: 1rem;
+}
+
+/* Estilos para mensajes */
+.message {
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    animation: slideIn 0.3s ease-out;
+}
+
+.message.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.message i {
+    margin-right: 10px;
+    font-size: 1.2em;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Estilos para el toast notification */
+.toast-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background-color: #4CAF50;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 9999;
+    animation: slideIn 0.5s ease-out, fadeOut 0.5s ease-out 4.5s;
+    max-width: 300px;
+}
+
+.toast-notification.error {
+    background-color: #f44336;
+}
+
+.toast-notification i {
+    font-size: 20px;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Estilos para los botones */
+.btn-upload {
+    background-color: #6f42c1;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+    margin-left: 8px;
+}
+
+.btn-upload:hover {
+    background-color: #5a32a3;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.btn-upload i {
+    font-size: 16px;
+}
+
+/* Ajustar el espaciado entre botones */
+.btn-ver + .btn-upload,
+.btn-ver + .btn-success {
+    margin-left: 8px;
+}
+
+/* Estilos para botones de icono */
+.btn-icon {
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0 4px;
+    color: white;
+    padding: 8px;
+}
+
+.btn-icon:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.btn-icon i {
+    font-size: 14px;
+}
+
+/* Color específico para cada tipo de botón */
+.btn-icon {
+    background-color: #0d6efd !important; /* Color azul por defecto */
+}
+
+.btn-icon:hover {
+    background-color: #0b5ed7 !important;
+}
+
+.btn-icon.btn-success {
+    background-color: var(--success-color) !important;
+}
+
+.btn-icon.btn-success:hover {
+    background-color: var(--success-hover) !important;
+}
+
+.btn-icon.btn-upload {
+    background-color: #6f42c1 !important;
+}
+
+.btn-icon.btn-upload:hover {
+    background-color: #5a32a3 !important;
+}
+
+/* Contenedor de botones en la tabla */
+td .btn-icon + .btn-icon {
+    margin-left: 8px;
+}
+
+/* Ajustar el ancho de la columna de acciones */
+#cotizacionesTable td:last-child {
+    min-width: 120px;
+    text-align: center;
+}
+
+/* Botón de evidencia */
+.btn-icon.btn-evidence {
+    background-color: #fd7e14 !important; /* Naranja */
+}
+
+.btn-icon.btn-evidence:hover {
+    background-color: #e66a0e !important;
+}
+
+/* Estilos para el botón de descarga */
+.btn-download {
+    background-color: #0d6efd;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-download:hover {
+    background-color: #0b5ed7;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Ajustes para el modal de evidencia */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
+
+.btn-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #666;
+}
+
+.btn-close:hover {
+    color: #000;
 } 
