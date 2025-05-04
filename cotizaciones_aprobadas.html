@@ -6,13 +6,14 @@
     <title>Cotizaciones Aprobadas - Sistema de Cotizaciones</title>
     <link rel="stylesheet" href="cotizaciones_aprobadas.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
 </head>
 <body>
     <div class="cotizaciones-container">
         <h1>Cotizaciones Aprobadas</h1>
         <main class="cotizaciones-content">
             <div class="table-container">
-                <table id="cotizacionesTable">
+                <table id="cotizacionesTable" class="data-table">
                     <thead>
                         <tr>
                             <th>N° Orden</th>
@@ -21,8 +22,12 @@
                             <th>Unidad</th>
                             <th>Departamento</th>
                             <th>Prioridad</th>
+                            <th>Sub total</th>
+                            <th>I.G.V.</th>
                             <th>Total</th>
                             <th>Estado Entrega</th>
+                            <th>Comprador</th>
+                            <th>Aprobador</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -39,58 +44,96 @@
         <div class="modal-content">
             <div class="modal-header">
                 <span class="close">&times;</span>
-                <h2>Cotización N° <span id="cotizacionNumero"></span></h2>
-                <p>Fecha: <span id="fechaActual"></span></p>
-            </div>
-            <div class="modal-body">
-                <div class="cotizacion-header">
+                <div class="header-content">
                     <div class="empresa-info">
-                        <h2>LP SOLDIS</h2>
+                        <h2>LP SOLDIS S.A.C.</h2>
                         <p>RUC: 20609075954</p>
-                        <p>Dirección: Av. Separadora Industrial 751</p>
+                        <p>Av. Separadora Industrial 751</p>
+                        <p>La Molina - Lima - Perú</p>
+                    </div>
+                    <div class="documento-info">
+                        <h2>COTIZACIÓN N° <span id="cotizacionNumero"></span></h2>
+                        <p>Fecha: <span id="fechaActual"></span></p>
                     </div>
                 </div>
-                
-                <div class="cliente-info">
-                    <h3>Datos del Cliente</h3>
-                    <p><strong>Cliente:</strong> <span id="detalleCliente"></span></p>
-                    <p><strong>Unidad:</strong> <span id="detalleUnidad"></span></p>
-                    <p><strong>Departamento:</strong> <span id="detalleDepartamento"></span></p>
-                    <p><strong>Prioridad:</strong> <span id="detallePrioridad"></span></p>
+            </div>
+            <div class="modal-body">
+                <div class="info-section">
+                    <div class="cliente-info">
+                        <h3>DATOS DEL CLIENTE</h3>
+                        <table class="info-table">
+                            <tr>
+                                <td><strong>Cliente:</strong></td>
+                                <td><span id="detalleCliente"></span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Unidad:</strong></td>
+                                <td><span id="detalleUnidad"></span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Departamento:</strong></td>
+                                <td><span id="detalleDepartamento"></span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Prioridad:</strong></td>
+                                <td><span id="detallePrioridad"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="responsables-info">
+                        <h3>RESPONSABLES</h3>
+                        <table class="info-table">
+                            <tr>
+                                <td><strong>Comprador:</strong></td>
+                                <td><span id="detalleComprador"></span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Aprobador:</strong></td>
+                                <td><span id="detalleAprobador"></span></td>
+                            </tr>
+                        </table>
+                    </div>
                 </div>
 
-                <div class="items-table">
-                    <table id="detalleTable">
-                        <thead>
-                            <tr>
-                                <th>Categoría</th>
-                                <th>Artículo</th>
-                                <th>Cantidad</th>
-                                <th>Precio Unit.</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="4" class="text-right">Subtotal:</td>
-                                <td id="detalleSubtotal"></td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" class="text-right">IGV (18%):</td>
-                                <td id="detalleIgv"></td>
-                            </tr>
-                            <tr>
-                                <td colspan="4" class="text-right">Total:</td>
-                                <td id="detalleTotal"></td>
-                            </tr>
-                        </tfoot>
-                    </table>
+                <div class="items-section">
+                    <h3>DETALLE DE ARTÍCULOS</h3>
+                    <div class="table-container">
+                        <table id="detalleTable" class="items-table">
+                            <thead>
+                                <tr>
+                                    <th>Categoría</th>
+                                    <th>Artículo</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio Unit.</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="4" class="text-right">Sub Total:</td>
+                                    <td id="detalleSubtotal"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right">I.G.V. (18%):</td>
+                                    <td id="detalleIgv"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-right">Total:</td>
+                                    <td id="detalleTotal"></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="modal-footer">
-                    <button id="descargarPdfBtn" class="btn-primary">Descargar PDF</button>
-                    <button class="btn-secondary close-modal">Cerrar</button>
+                    <button id="descargarPdfBtn" class="btn-primary">
+                        <i class="fas fa-download"></i> Descargar PDF
+                    </button>
+                    <button class="btn-secondary close-modal">
+                        <i class="fas fa-times"></i> Cerrar
+                    </button>
                 </div>
             </div>
         </div>
