@@ -112,7 +112,9 @@ function mostrarNotificacion(mensaje, tipo = 'success') {
     const toast = document.createElement('div');
     toast.className = `toast-notification ${tipo}`;
     toast.innerHTML = `
-        <i class="fas fa-${tipo === 'success' ? 'check-circle' : tipo === 'warning' ? 'exclamation-triangle' : 'exclamation-circle'}"></i>
+        <i class="fas fa-${tipo === 'success' ? 'check-circle' : 
+                         tipo === 'warning' ? 'exclamation-triangle' : 
+                         'exclamation-circle'}"></i>
         <span>${mensaje}</span>
     `;
     
