@@ -3,32 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Sistema de Cotizaciones</title>
+    <title>Login - LP SOLDIS</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <div class="sidebar">
-            <!-- Aquí va el botón de toggle -->
-            <div id="menu">
-                <!-- Aquí van los items del menú -->
+        <div class="login-container">
+            <div class="login-header">
+                <i class="fas fa-truck-loading logo-icon"></i>
+                <h1>LP SOLDIS</h1>
+                <p class="subtitle">Sistema de Cotizaciones</p>
             </div>
-        </div>
-        <div class="main-content">
-            <div class="login-container">
-                <h2>Acceso al Sistema</h2>
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label for="usuario">Usuario:</label>
-                        <input type="text" id="usuario" required>
+            <form id="loginForm">
+                <div class="form-group">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="usuario" placeholder="Usuario" required>
                     </div>
-                    <div class="form-group">
-                        <label for="password">Contraseña:</label>
-                        <input type="password" id="password" required>
+                </div>
+                <div class="form-group">
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" placeholder="Contraseña" required>
                     </div>
-                    <button type="submit">Ingresar</button>
-                    <div id="errorMessage" class="error-message"></div>
-                </form>
+                </div>
+                <button type="submit">
+                    <i class="fas fa-sign-in-alt"></i> Ingresar
+                </button>
+                <div id="errorMessage" class="error-message"></div>
+            </form>
+            <div class="login-footer">
+                <p>© 2025 LP SOLDIS</p>
+                <p>RUC: 20609075954</p>
             </div>
         </div>
     </div>
