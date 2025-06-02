@@ -171,9 +171,15 @@ function mostrarModalDetalle(data) {
 
 // Función para aprobar orden
 async function aprobarOrden() {
-    if (!ordenActual) return;
+    const aprobarBtn = document.querySelector('.btn-success');
+    
+    // Deshabilitar botón y mostrar spinner
+    aprobarBtn.disabled = true;
+    aprobarBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
     
     try {
+        if (!ordenActual) return;
+        
         const formData = new FormData();
         formData.append('action', 'aprobarOrden');
         formData.append('numero', ordenActual.orden.numero);
@@ -193,6 +199,10 @@ async function aprobarOrden() {
     } catch (error) {
         console.error('Error al aprobar orden:', error);
         mostrarNotificacion(error.message, 'error');
+    } finally {
+        // Restaurar botón
+        aprobarBtn.disabled = false;
+        aprobarBtn.innerHTML = '<i class="fas fa-check"></i> Aprobar Orden';
     }
 }
 
