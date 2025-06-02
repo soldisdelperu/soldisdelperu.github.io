@@ -245,16 +245,20 @@ input[readonly] {
     height: 100%;
     background-color: rgba(0,0,0,0.5);
     z-index: 1000;
+    overflow-y: auto;
+    padding: 20px 0;
 }
 
 .modal-content {
     background-color: white;
-    margin: 5% auto;
+    margin: 20px auto;
     padding: 20px;
     width: 80%;
     max-width: 800px;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow);
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .modal-header {
@@ -290,8 +294,12 @@ input[readonly] {
 }
 
 .modal-footer {
-    margin-top: 20px;
-    text-align: right;
+    position: sticky;
+    bottom: 0;
+    background: white;
+    padding-top: 15px;
+    border-top: 1px solid var(--gray-medium);
+    margin-top: 15px;
 }
 
 .btn-success {
@@ -383,5 +391,53 @@ input[readonly] {
 
     .btn-container button {
         width: 100%;
+    }
+}
+
+/* Toast Notifications */
+.toast-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 15px 25px;
+    background-color: #4CAF50;  /* Verde para éxito */
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 9999;
+    animation: slideIn 0.5s ease-out, fadeOut 0.5s ease-out 4.5s;
+}
+
+.toast-notification.error {
+    background-color: #f44336;  /* Rojo para error */
+}
+
+.toast-notification.warning {
+    background-color: #ff9800;  /* Naranja para advertencia */
+}
+
+/* Animaciones para el toast */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(100%);
+        opacity: 0;
     }
 } 
